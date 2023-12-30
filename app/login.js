@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, Button } from 'react-native';
 import styles from './styles';
 
-const Login = ({ navigation }) => {
+const Login = ({ navigation }, props) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
@@ -13,7 +13,7 @@ const Login = ({ navigation }) => {
     // Örneğin, bir API çağrısı yapabilir ve giriş durumunu kontrol edebilirsiniz
 
     // Kullanıcı başarılı bir şekilde giriş yaptığında, "Home" ekranına geçiş yapabilirsiniz.
-    navigation.navigate('Home');
+    navigation.navigate('Home', { loggedIn: true });
   };
 
   return (
