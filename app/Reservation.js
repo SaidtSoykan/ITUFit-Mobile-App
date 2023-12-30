@@ -15,11 +15,15 @@ LocaleConfig.locales['tr'] = {
 
 LocaleConfig.defaultLocale = 'tr';
 const Reservation = () => {
-  const [reservationName, setReservationName] = useState('');
+  const [selectedFacility, setSelectedFacility] = useState(null); // Yeni state
+  const [selectedTimeSlot, setSelectedTimeSlot] = useState(null); // Yeni state  const [selectedDate, setSelectedDate] = useState(null);
   const [selectedDate, setSelectedDate] = useState(null);
+  const [selectedDay, setSelectedDay] = useState(null); // Yeni state
   const [reservationTime, setReservationTime] = useState('');
   const [showCalendar, setShowCalendar] = useState(false); // Yeni state
   const [showTimeSlots, setShowTimeSlots] = useState(false); // Yeni state
+  const [showFacilities, setShowFacilities] = useState(true); // Yeni state
+  const [showCreateButton, setShowCreateButton] = useState(false); // Yeni state
 
   const facilities = [
     { id: '1', name: 'Futbol Sahası A', type: 'Futbol' },
@@ -28,46 +32,58 @@ const Reservation = () => {
   ];
 
   const handleCreateReservation = () => {
-    console.log('Rezervasyon Oluşturuluyor: ', reservationName, selectedDate, reservationTime);
+    console.log('Rezervasyon Oluşturuluyor: ', reservationTime);
   };
 
   const handleFacilityPress = (facility) => {
     console.log('Tesis Seçildi: ', facility);
+    setSelectedFacility(facility);
+    setShowFacilities(false);
     setShowCalendar(true); // Tesis kartına tıklandığında takvimi göster
+   
   };
 
   const handleTimeSlotPress = (startTime, endTime) => {
     console.log('Seçilen Zaman Aralığı: ', startTime, endTime);
+    setSelectedTimeSlot(`${startTime}-${endTime}`);
+    setShowCreateButton(true);
+    setShowTimeSlots(false);
     // Burada seçilen zaman aralığına göre işlemleri gerçekleştirebilirsiniz
   };
 
   const handleCalendarClose = () => {
     setShowCalendar(false); // Takvim kapatıldığında
+    setShowFacilities(true);
+    setShowCreateButton(false);
   };
+
+  const handleDayPress = (day) => {
+    console.log('Seçilen Gün: ', day.dateString);
+    setSelectedDay(day.dateString);
+    setSelectedDate(day.dateString); // Bu satırı ekleyerek takvimde de seçilen günü işaretleyebiliriz
+    setShowTimeSlots(true);
+    setShowCalendar(false);
+  };
+
+
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Rezervasyon Yap</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Rezervasyon Adı"
-        onChangeText={(text) => setReservationName(text)}
-        value={reservationName}
-      />
-      <FlatList
-        data={facilities}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <FacilityCard facility={item} onPress={() => handleFacilityPress(item)} />
-        )}
-      />
+      {showFacilities && (
+        <FlatList
+          data={facilities}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <FacilityCard facility={item} onPress={() => handleFacilityPress(item)} />
+          )}
+        />
+      )}
+
       {showCalendar && (
         <View style={styles.calendarContainer}>
+          
           <Calendar
-            onDayPress={(day) => {
-              setSelectedDate(day.dateString);
-              setShowTimeSlots(true);
-            }}
+            onDayPress={handleDayPress}
             monthFormat={'MMMM yyyy'}
             markedDates={{ [selectedDate]: { selected: true, disableTouchEvent: true } }}
             theme={{
@@ -81,23 +97,27 @@ const Reservation = () => {
           </TouchableOpacity>
         </View>
       )}
+
       {showTimeSlots && (
         <ShowTimeSlots
-          selectedDate={selectedDate}
+          
           onClose={() => setShowTimeSlots(false)}
           onTimeSlotPress={handleTimeSlotPress}
         />
       )}
-      <TextInput
-        style={styles.input}
-        placeholder="Rezervasyon Saati"
-        onChangeText={(text) => setReservationTime(text)}
-        value={reservationTime}
-      />
-      <Button title="Rezervasyon Oluştur" onPress={handleCreateReservation} />
+
+      {showCreateButton && (
+        <View>
+          <Text>{`Tesis Seçildi: ${selectedFacility.name} (${selectedFacility.type})`}</Text>
+          <Text>{`Seçilen Zaman Aralığı: ${selectedTimeSlot}`}</Text>
+          <Text>{`Seçilen Gün: ${selectedDay}`}</Text>
+          <Button title="Rezervasyon Oluştur" onPress={handleCreateReservation} />
+        </View>
+        )}
     </View>
   );
 };
+     
 
 const styles = StyleSheet.create({
   // ... (diğer stiller)
