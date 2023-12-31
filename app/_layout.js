@@ -1,5 +1,5 @@
 // Layout.js
-import React, { useState } from 'react';
+import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
@@ -11,7 +11,6 @@ import ReservationManagement from './ReservationManagement';
 import Comments from './Comments';
 import RankingPage from './RankingPage';
 import UserProfile from './UserProfile';
-import { View } from 'react-native-web';
 import styles from './styles';
 
 const loginName = "Login";
@@ -22,21 +21,10 @@ const commentName = "Comments";
 const rankingName = "RankingPage";
 const profileName = "UserProfile";
 
-const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-// Component yüklendiğinde, giriş durumunu kontrol et
-useEffect(() => {
-  if (navigation.getParam('loggedIn')) {
-    setIsLoggedIn(true);
-  }
-}, [navigation]);
-
 const Tab = createBottomTabNavigator();
 
-const Layout = ({ navigation },props) => {
+const Layout = ({ navigation }) => {
   return (
-    <View style={styles.container}>
-      {isLoggedIn ? (
         <Tab.Navigator
           initialRouteName={loginName}
           screenOptions={({ route }) => ({
@@ -77,11 +65,6 @@ const Layout = ({ navigation },props) => {
           <Tab.Screen name={profileName} component={UserProfile} />
 
         </Tab.Navigator>
-      ) : (
-          <Login setIsLoggedIn = {setIsLoggedIn} />
-        )
-      }
-    </View>
     //<Stack.Navigator initialRouteName="Login">
     //  <Stack.Screen name="Login" component={Login} />
     //  <Stack.Screen name="Home" component={Home} />

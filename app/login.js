@@ -13,7 +13,7 @@ const Login = ({ navigation }, props) => {
     // Örneğin, bir API çağrısı yapabilir ve giriş durumunu kontrol edebilirsiniz
 
     // Kullanıcı başarılı bir şekilde giriş yaptığında, "Home" ekranına geçiş yapabilirsiniz.
-    navigation.navigate('Home', { loggedIn: true });
+    navigation.navigate('Home');
   };
 
   return (
