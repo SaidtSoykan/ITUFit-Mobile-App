@@ -5,6 +5,7 @@ import { View, Text, FlatList, TextInput, Button, StyleSheet, TouchableOpacity }
 
 const CommentsScreen = () => {
     const [selectedFacility, setSelectedFacility] = useState(null);
+    //    const [facilities, setFacilities] = useState([]);
     const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState('');
     const [userRating, setUserRating] = useState(0);
@@ -15,11 +16,42 @@ const CommentsScreen = () => {
         // ... diğer tesisler
     ];
 
+    /*
+    useEffect(() => {
+        // Backend'ten tesisleri çekmek için endpoint
+        const fetchFacilitiesEndpoint = 'https://example.com/api/fetchFacilities';
+
+        axios.get(fetchFacilitiesEndpoint)
+            .then(response => {
+                setFacilities(response.data);
+            })
+            .catch(error => {
+                console.error('Error fetching facilities:', error);
+            });
+    }, []);
+    */
+
     const handleFacilitySelection = (facility) => {
         setSelectedFacility(facility);
         // Belirli bir tesis seçildiğinde, o tesise ait yorumları getirebilirsiniz.
         // Örnek: fetchCommentsForFacility(facility.id);
+        // Tesis seçildiğinde, o tesise ait yorumları çekmek için yeni bir fonksiyon kullanabilirsiniz.
+        //fetchCommentsForFacility(facility.id);
     };
+
+
+    /*const fetchCommentsForFacility = (facilityId) => {
+        // Backend'ten tesis için yorumları çekmek için endpoint
+        const fetchCommentsEndpoint = `https://example.com/api/fetchComments/${facilityId}`;
+
+        axios.get(fetchCommentsEndpoint)
+            .then(response => {
+                setComments(response.data);
+            })
+            .catch(error => {
+                console.error('Error fetching comments:', error);
+            });
+    };*/
 
     const handleAddComment = () => {
         // Yeni yorumu eklemek için
@@ -40,6 +72,51 @@ const CommentsScreen = () => {
             // Örnek: sendCommentToServer(selectedFacility.id, newComment);
         }
     };
+
+
+    /*
+    const handleAddComment = () => {
+        // Yeni yorumu eklemek için
+        if (selectedFacility && newComment.trim() !== '') {
+            // Yeni yorumu sunucuya göndermek için bir fonksiyonu çağırabilirsiniz.
+            sendCommentToServer(selectedFacility.id, newComment);
+        }
+    };
+
+    const sendCommentToServer = (facilityId, commentText) => {
+        // Backend'e yeni yorumu göndermek için endpoint
+        const sendCommentEndpoint = 'https://example.com/api/sendComment';
+
+        const requestData = {
+            facilityId: facilityId,
+            commentText: commentText,
+            userRating: userRating,
+        };
+
+        axios.post(sendCommentEndpoint, requestData)
+            .then(response => {
+                console.log('Comment sent successfully:', response.data);
+                // Yeni yorum sunucuya başarıyla gönderildiğinde, yerel state'i güncelleyin
+                setComments([
+                    ...comments,
+                    {
+                        id: comments.length + 1,
+                        text: newComment,
+                        user: 'John Doe', // Kullanıcı adını backend'ten alabilirsiniz.
+                        rating: userRating,
+                    },
+                ]);
+                setNewComment('');
+                setUserRating(0);
+            })
+            .catch(error => {
+                console.error('Error sending comment:', error);
+                // Hata durumunda uygun şekilde işleyin
+            });
+    };
+
+
+    */
 
     const renderStar = (index) => {
         return (

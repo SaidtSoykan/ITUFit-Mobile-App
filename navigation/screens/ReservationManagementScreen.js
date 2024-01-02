@@ -1,19 +1,62 @@
 // ReservationManagementScreen.js
 import React, { useState } from 'react';
 import { View, Text, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
+import axios from 'axios';
 
 const ReservationManagementScreen = () => {
     // Örnek rezervasyonlar
+    //     const [reservations, setReservations] = useState([]);
     const [reservations, setReservations] = useState([
         { id: '1', name: 'Futbol Sahası', date: '2023-01-01', time: '12:00' },
         { id: '2', name: 'Basketbol Sahası', date: '2023-02-01', time: '14:30' },
         // ... diğer rezervasyonlar
     ]);
 
+    /*
+    useEffect(() => {
+        // Backend API endpoint
+        const backendApiEndpoint = 'https://849e-188-119-40-246.ngrok-free.app/reservations/listReservation';
+
+        // Axios ile backend'den rezervasyonları getirme
+        axios.get(backendApiEndpoint)
+            .then(response => {
+                setReservations(response.data);
+            })
+            .catch(error => {
+                console.error('Error getting reservations:', error);
+                // Hata durumunda uygun şekilde işleyin
+            });
+    }, []); 
+    */
+
     const [selectedReservation, setSelectedReservation] = useState(null);
 
     const handleCancelReservation = () => {
         if (selectedReservation) {
+
+            const { id } = selectedReservation;
+
+            const backendApiEndpoint = 'https://849e-188-119-40-246.ngrok-free.app/reservations/deleteReservation';
+            
+            
+            const requestData = {
+                id: id,
+            };
+
+            axios.post(backendApiEndpoint, requestData)
+                .then(response => {
+                    console.log('Reservation canceled successfully:', response.data);
+                    // Backend başarıyla yanıt verdiğinde yerel state'i güncelle
+                    const updatedReservations = reservations.filter(item => item.id !== id);
+                    setReservations(updatedReservations);
+                    setSelectedReservation(null);
+                })
+                .catch(error => {
+                    console.error('Error canceling reservation:', error);
+                    // Hata durumunda uygun şekilde işleyin
+                });
+
+
             const updatedReservations = reservations.filter((item) => item.id !== selectedReservation.id);
             setReservations(updatedReservations);
             setSelectedReservation(null);

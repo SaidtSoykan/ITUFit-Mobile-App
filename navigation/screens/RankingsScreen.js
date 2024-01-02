@@ -1,6 +1,7 @@
 // RankingsScreen.js
 import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, StyleSheet } from 'react-native';
+import axios from 'axios';
 
 const RankingsScreen = () => {
     const [users, setUsers] = useState([]);
@@ -19,6 +20,23 @@ const RankingsScreen = () => {
 
         setUsers(sortedUsers);
     }, []);
+
+    /*
+    useEffect(() => {
+        // Backend'ten kullanıcıları çekmek için endpoint
+        const fetchUsersEndpoint = 'https://example.com/api/fetchUsers';
+
+        axios.get(fetchUsersEndpoint)
+            .then(response => {
+                // Kullanıcıları ranklarına göre sırala
+                const sortedUsers = response.data.sort((a, b) => b.rank - a.rank);
+                setUsers(sortedUsers);
+            })
+            .catch(error => {
+                console.error('Error fetching users:', error);
+            });
+    }, []);
+    */
 
     return (
         <View style={styles.container}>

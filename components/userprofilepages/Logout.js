@@ -3,11 +3,11 @@ import React from 'react';
 import { View, Text, Button } from 'react-native';
 import styles from '../../styles';
 
-const Logout = ({navigation}) => {
+const Logout = ({ navigation }) => {
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Do you want Logout?</Text>
-            <Button title="Logout" onPress={() => {navigation.navigate('LoginScreen')} } />
+            <Text style={styles.title}>Do you want to logout?</Text>
+            <Button title="Logout" onPress={() => navigation.push("LoginScreen")} />
         </View>
     );
 };

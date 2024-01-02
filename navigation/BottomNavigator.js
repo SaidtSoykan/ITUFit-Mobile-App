@@ -4,7 +4,6 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 // Screens
-import HomeScreen from './screens/HomeScreen';
 import ReservationManagementScreen from './screens/ReservationManagementScreen';
 import ReservationScreen from './screens/ReservationScreen';
 import CommentsScreen from './screens/CommentsScreen';
@@ -12,7 +11,6 @@ import RankingsScreen from './screens/RankingsScreen';
 import ProfileScreen from './screens/ProfileScreen';
 
 //Screen names
-const homeName = "Home";
 const reservationName = "Reservation";
 const reservationManagementName = "ReservationManagement";
 const commentsName = "Comments";
@@ -27,17 +25,15 @@ function BottomNavigator() {
 
         <NavigationContainer>
             <Tab.Navigator
-                initialRouteName={homeName}
+                initialRouteName={reservationName}
                 screenOptions={({ route }) => ({
                     tabBarIcon: ({ focused, color, size }) => {
                         let iconName;
                         let rn = route.name;
 
-                        if (rn === homeName) {
+                        if (rn === reservationName) {
                             iconName = focused ? 'home' : 'home-outline';
                         } else if (rn === reservationManagementName) {
-                            iconName = focused ? 'list' : 'list-outline';
-                        } else if (rn === reservationName) {
                             iconName = focused ? 'list' : 'list-outline';
                         } else if (rn === commentsName) {
                             iconName = focused ? 'chatbubbles' : 'chatbubbles-outline';
@@ -57,10 +53,9 @@ function BottomNavigator() {
                     labelStyle: { paddingBottom: 10, fontSize: 10 },
                     style: { padding: 10, height: 70 }
                 }}>
-
-                <Tab.Screen name={homeName} component={HomeScreen} />
-                <Tab.Screen name={reservationManagementName} component={ReservationManagementScreen} />
+                
                 <Tab.Screen name={reservationName} component={ReservationScreen} />
+                <Tab.Screen name={reservationManagementName} component={ReservationManagementScreen} />
                 <Tab.Screen name={commentsName} component={CommentsScreen} />
                 <Tab.Screen name={rankingsName} component={RankingsScreen} />
                 <Tab.Screen name={profileName} component={ProfileScreen} />

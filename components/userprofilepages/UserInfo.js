@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity } from 'react-native';
 
+//const SAVE_USER_INFO_URL = 'https://your-backend-api.com/saveUserInfo';
+//const GET_USER_INFO_URL = 'https://your-backend-api.com/getUserInfo';
+
 const PersonalInfoScreen = () => {
   const [weight, setWeight] = useState('');
   const [height, setHeight] = useState('');
@@ -34,6 +37,35 @@ const PersonalInfoScreen = () => {
     });
   };
 
+
+  /*const handleSave = async () => {
+    calculateBasalMetabolism();
+
+    try {
+      const response = await fetch(SAVE_USER_INFO_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          weight,
+          height,
+          basalMetabolism,
+          desiredWeight,
+          preferredSports,
+        }),
+      });
+
+      if (response.ok) {
+        console.log('User information saved successfully');
+      } else {
+        console.error('Failed to save user information');
+      }
+    } catch (error) {
+      console.error('Error while saving user information:', error);
+    }
+  };*/
+
   useEffect(() => {
     // Save the information
     setSavedInfo({
@@ -44,6 +76,26 @@ const PersonalInfoScreen = () => {
       preferredSports: preferredSports,
     });
   }, [basalMetabolism]);
+
+
+  /*useEffect(() => {
+    const fetchUserInfo = async () => {
+      try {
+        const response = await fetch(GET_USER_INFO_URL);
+
+        if (response.ok) {
+          const userInfo = await response.json();
+          setSavedInfo(userInfo);
+        } else {
+          console.error('Failed to fetch user information');
+        }
+      } catch (error) {
+        console.error('Error while fetching user information:', error);
+      }
+    };
+
+    fetchUserInfo();
+  }, []);*/
 
   return (
     <View style={styles.container}>

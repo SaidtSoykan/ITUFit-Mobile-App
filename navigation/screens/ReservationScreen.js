@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 import { FlatList } from 'react-native';  // Make sure to include this line
+import axios from 'axios'; // Import axios
 import FacilityCard from '../../components/FacilityCard';
 import { Calendar, LocaleConfig } from 'react-native-calendars';
 import { TouchableOpacity } from 'react-native';
@@ -31,9 +32,40 @@ const ReservationScreen = () => {
     // Diğer tesisleri ekleyebilirsiniz
   ];
 
+
+
   const handleCreateReservation = () => {
-    console.log('Rezervasyon Oluşturuluyor: ', reservationTime);
+    // Check if all necessary data is available
+
+    const reservationData = {
+      facilityId: selectedFacility.id,
+      timeSlot: selectedTimeSlot,
+      selectedDay: selectedDay,
+    };
+
+    // Example backend API endpoint
+    const backendApiEndpoint = 'https://example.com/api/createReservation';
+
+    // Send data to the backend using axios
+    axios.post(backendApiEndpoint, reservationData)
+      .then(response => {
+        console.log('Reservation created successfully:', response.data);
+        // Additional logic if needed
+      })
+      .catch(error => {
+        console.error('Error creating reservation:', error);
+        // Handle errors if needed
+      });
+
+    // Reset state and UI
+    setShowFacilities(true);
+    setShowCreateButton(false);
+    setSelectedFacility(null);
+    setSelectedTimeSlot(null);
+    setSelectedDate(null);
+    setSelectedDay(null);
   };
+
 
   const handleFacilityPress = (facility) => {
     console.log('Tesis Seçildi: ', facility);

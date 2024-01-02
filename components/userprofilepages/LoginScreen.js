@@ -13,35 +13,6 @@ function LoginScreen (props){
         props.authorize(true);
     };
 
-    /*
-    const handleLogin = async () => {
-    try {
-      const response = await fetch('https://your-backend-api.com/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          username,
-          password,
-        }),
-      });
-      if (response.ok) {
-        // Backend authentication successful
-        console.log('Kullanıcı Girişi Başarılı: ', username);
-        props.authorize(true);
-      } else {
-        // Backend authentication failed
-        const errorData = await response.json();
-        Alert.alert('Error', errorData.message || 'Login failed. Please check your credentials.');
-      }
-    } catch (error) {
-      console.error('Error during login:', error);
-      Alert.alert('Error', 'An error occurred during login. Please try again.');
-    }
-  };
-    */
-
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Login</Text>

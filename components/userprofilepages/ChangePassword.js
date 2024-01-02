@@ -17,6 +17,35 @@ const ChangePasswordScreen = () => {
     }
   };
 
+  /*
+  const handleChangePassword = async () => {
+    try {
+      const response = await fetch('https://your-backend-api.com/changePassword', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          currentPassword,
+          newPassword,
+          confirmNewPassword,
+        }),
+      });
+
+      if (response.ok) {
+        Alert.alert('Success', 'Password changed successfully!');
+      } else {
+        const errorData = await response.json();
+        Alert.alert('Error', errorData.message || 'Failed to change password.');
+      }
+    } catch (error) {
+      console.error('Error while changing password:', error);
+      Alert.alert('Error', 'An error occurred while changing password.');
+    }
+  };
+
+  */
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Change Password</Text>
