@@ -40,7 +40,7 @@ const PersonalInfoScreen = () => {
 
   const handleSave = async () => {
     calculateBasalMetabolism();
-    const backendApiEndpoint = 'https://c4f3-176-42-133-250.ngrok-free.app/students/physicalInfo';
+    const backendApiEndpoint = 'http://13.50.243.223:8080/students/physicalInfo';
     const userId = await AsyncStorage.getItem('userId');
     console.log("hello")
             const requestData = {
@@ -89,7 +89,7 @@ const fetchData = () => {
 }
 
   const getInfo = async () => {
-    const backendApiEndpoint = 'https://c4f3-176-42-133-250.ngrok-free.app/students/getPhysicalInfo';
+    const backendApiEndpoint = 'http://13.50.243.223:8080/students/getPhysicalInfo';
     const userId = await AsyncStorage.getItem('userId');
     console.log("hello")
             const requestData = {

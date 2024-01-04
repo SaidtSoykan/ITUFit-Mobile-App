@@ -23,7 +23,7 @@ const CommentsScreen = () => {
         // Fetch facilities from the backend API when the component mounts
         const fetchFacilities = async () => {
           try {
-            const response = await axios.post('https://c4f3-176-42-133-250.ngrok-free.app/facilities/listFacility');
+            const response = await axios.post('http://13.50.243.223:8080/facilities/listFacility');
             setFacilities(response.data.data); // Assuming the response contains an arr of facilities
             
             console.log(response.data);
@@ -55,7 +55,7 @@ const CommentsScreen = () => {
     const fetchCommentsForFacility = (facilityId) => {
         // Backend'ten tesis için yorumlar çekmek için enpoint
         console.log("facilityID(comments): ", facilityId)
-        const fetchCommentsEndpoint = `https://c4f3-176-42-133-250.ngrok-free.app/comments/listComment`;
+        const fetchCommentsEndpoint = `http://13.50.243.223:8080/comments/listComment`;
         const requestData = {
             facilityId: facilityId,
         };
@@ -103,7 +103,7 @@ const CommentsScreen = () => {
 
     const sendCommentToServer = async (facilityId, commentText) => {
         // Backend'e yeni yorumu göndermek için endpoint
-        const sendCommentEndpoint = 'https://c4f3-176-42-133-250.ngrok-free.app/comments/addComment';
+        const sendCommentEndpoint = 'http://13.50.243.223:8080/comments/addComment';
         const userId = await AsyncStorage.getItem('userId');
         const requestData = {
             facilityId: facilityId,

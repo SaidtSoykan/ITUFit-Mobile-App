@@ -15,7 +15,7 @@ const ReservationManagementScreen = () => {
         const requestData = {
             userId: userId,
         };
-        const backendApiEndpoint = 'https://c4f3-176-42-133-250.ngrok-free.app/reservations/listReservation';
+        const backendApiEndpoint = 'http://13.50.243.223:8080/reservations/listReservation';
 
         try {
             const response = await axios.post(backendApiEndpoint, requestData);
@@ -42,7 +42,7 @@ const ReservationManagementScreen = () => {
         if (selectedReservation) {
             const { reservationId } = selectedReservation;
             
-            const backendApiEndpoint = 'https://c4f3-176-42-133-250.ngrok-free.app/reservations/deleteReservation';
+            const backendApiEndpoint = 'http://13.50.243.223:8080/reservations/deleteReservation';
 
             const requestData = {
                 id: reservationId,
@@ -68,7 +68,7 @@ const ReservationManagementScreen = () => {
         const requestData = {
             userId: userId,
         };
-        const backendApiEndpoint = 'https://c4f3-176-42-133-250.ngrok-free.app/reservations/listReservation';
+        const backendApiEndpoint = 'http://13.50.243.223:8080/reservations/listReservation';
 
         // Axios ile backen'denrezervasyonları getirme
         axios.post(backendApiEndpoint, requestData)

@@ -25,7 +25,7 @@ export function LoginScreen(props) {
         };
 
         // Backend'e kayıt isteği gönderilir
-        const response = await axios.post('https://c4f3-176-42-133-250.ngrok-free.app/students/register', requestData);
+        const response = await axios.post('http://13.50.243.223:8080/students/register', requestData);
 
         if (response.data.success) {
 
@@ -89,7 +89,7 @@ export function LoginScreen(props) {
         };
 
         // Backend'e giriş isteği gönderilir
-        const response = await axios.post('https://c4f3-176-42-133-250.ngrok-free.app/students/login', requestData);
+        const response = await axios.post('http://13.50.243.223:8080/students/login', requestData);
 
         if (response.data.success) {
           // Giriş başarılıysa, kullanıcı bilgilerini saklayabilirsiniz (isteğe bağlı)

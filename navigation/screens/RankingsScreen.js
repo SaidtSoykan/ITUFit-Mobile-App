@@ -25,7 +25,7 @@ const RankingsScreen = () => {
     
     const fetchData = () => {
         // Backend'ten kullanıcıları çekmek için endpoint
-        const fetchUsersEndpoint = 'https://c4f3-176-42-133-250.ngrok-free.app/students/getRankings';
+        const fetchUsersEndpoint = 'http://13.50.243.223:8080/students/getRankings';
 
         axios.post(fetchUsersEndpoint)
             .then(response => {
