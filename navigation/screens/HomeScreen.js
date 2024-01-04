@@ -11,7 +11,7 @@ const Home = () => {
     });
   }, [navigation]);
 
-  // render fonksiyonu boş dönebilir, çünkü sayfayı göstermeyeceğiz
+  // render fonksiyonu boş dönebilir çünkü sayfayı göstermeyeceğiz
 
   return null;
 };

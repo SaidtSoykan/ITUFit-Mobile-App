@@ -5,8 +5,8 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 const FacilityCard = ({ facility, onPress }) => {
     return (
         <TouchableOpacity style={styles.card} onPress={onPress}>
-            <Text style={styles.facilityName}>{facility.name}</Text>
-            <Text style={styles.facilityType}>{facility.type}</Text>
+            <Text style={styles.facilityName}>{facility.facilityType}</Text>
+            <Text style={styles.facilityType}>{facility.facilityId}</Text>
         </TouchableOpacity>
     );
 };

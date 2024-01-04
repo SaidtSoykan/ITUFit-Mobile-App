@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity } from 'react-native';
-
-//const SAVE_USER_INFO_URL = 'https://your-backend-api.com/saveUserInfo';
-//const GET_USER_INFO_URL = 'https://your-backend-api.com/getUserInfo';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
+import { useFocusEffect } from '@react-navigation/native';
 
 const PersonalInfoScreen = () => {
   const [weight, setWeight] = useState('');
@@ -26,76 +26,100 @@ const PersonalInfoScreen = () => {
     setPreferredSports(updatedSports);
   };
 
-  const handleSave = () => {
-    calculateBasalMetabolism(); // Calculate Basal Metabolism when Save is pressed
-    setSavedInfo({
-      weight: weight,
-      height: height,
-      basalMetabolism: basalMetabolism,
-      desiredWeight: desiredWeight,
-      preferredSports: preferredSports,
-    });
+  // const handleSave = () => {
+  //   calculateBasalMetabolism(); // Calculate Basal Metabolism when Save is pressed
+  //   setSavedInfo({
+  //     weight: weight,
+  //     height: height,
+  //     basalMetabolism: basalMetabolism,
+  //     desiredWeight: desiredWeight,
+  //     preferredSports: preferredSports,
+  //   });
+  // };
+
+
+  const handleSave = async () => {
+    calculateBasalMetabolism();
+    const backendApiEndpoint = 'https://c4f3-176-42-133-250.ngrok-free.app/students/physicalInfo';
+    const userId = await AsyncStorage.getItem('userId');
+    console.log("hello")
+            const requestData = {
+              id: userId,
+              weight: weight, 
+              goalWeight: desiredWeight,
+              height: height,
+              basalMetabolism: basalMetabolism,
+            };
+
+            axios.post(backendApiEndpoint, requestData)
+                .then(response => {
+                  if(response.data){
+                    console.log('User information saved successfully');
+                    fetchData();
+                  }else{
+                    console.error('Failed to save user information');
+                  }
+                })
+                .catch(error => {
+                  console.error('Error while saving user information:', error);
+                    // Handle the error appropriately
+                });
   };
 
-
-  /*const handleSave = async () => {
-    calculateBasalMetabolism();
-
-    try {
-      const response = await fetch(SAVE_USER_INFO_URL, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          weight,
-          height,
-          basalMetabolism,
-          desiredWeight,
-          preferredSports,
-        }),
-      });
-
-      if (response.ok) {
-        console.log('User information saved successfully');
-      } else {
-        console.error('Failed to save user information');
-      }
-    } catch (error) {
-      console.error('Error while saving user information:', error);
-    }
-  };*/
-
   useEffect(() => {
-    // Save the information
-    setSavedInfo({
-      weight: weight,
-      height: height,
-      basalMetabolism: basalMetabolism,
-      desiredWeight: desiredWeight,
-      preferredSports: preferredSports,
-    });
+    fetchData();
   }, [basalMetabolism]);
+  
+  useFocusEffect(
+    React.useCallback(() => {
+      fetchData();
+    }, []) // Empty dependency array means it only runs when the component mounts and unmounts
+);
 
+const fetchData = () => {
+  getInfo();
+  // console.log("userInfo: ", userInfo);
+  // setSavedInfo({
+  //   weight: userInfo.weight,
+  //   height: userInfo.height,
+  //   basalMetabolism: userInfo.basalMetabolism,
+  //   desiredWeight: userInfo.goalWeight,
+  //   preferredSports: preferredSports,
+  // });
+}
 
-  /*useEffect(() => {
-    const fetchUserInfo = async () => {
-      try {
-        const response = await fetch(GET_USER_INFO_URL);
+  const getInfo = async () => {
+    const backendApiEndpoint = 'https://c4f3-176-42-133-250.ngrok-free.app/students/getPhysicalInfo';
+    const userId = await AsyncStorage.getItem('userId');
+    console.log("hello")
+            const requestData = {
+              userId: userId,
+            };
+    console.log("id: ", userId);
 
-        if (response.ok) {
-          const userInfo = await response.json();
-          setSavedInfo(userInfo);
-        } else {
-          console.error('Failed to fetch user information');
-        }
-      } catch (error) {
-        console.error('Error while fetching user information:', error);
-      }
-    };
+    axios.post(backendApiEndpoint, requestData)
+        .then(response => {
+          if(response.data){
+            console.log('User information get successfully');
+            userInfo = response.data.data;
+            console.log("preferredSports: ", preferredSports);
+            setSavedInfo({
+              weight: userInfo.weight,
+              height: userInfo.height,
+              basalMetabolism: userInfo.basalMetabolism,
+              desiredWeight: userInfo.goalWeight,
+              preferredSports: ["pool", "gym"],
+        });
 
-    fetchUserInfo();
-  }, []);*/
+          }else{
+            console.error('Failed to save user information');
+          }
+        })
+        .catch(error => {
+          console.error('Error while saving getting information:', error);
+        });
+        
+  };
 
   return (
     <View style={styles.container}>

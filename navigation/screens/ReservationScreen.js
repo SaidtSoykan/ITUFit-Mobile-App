@@ -1,11 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
-import { FlatList } from 'react-native';  // Make sure to include this line
+import { FlatList } from 'react-native';  // Make sure toinclude this line
 import axios from 'axios'; // Import axios
 import FacilityCard from '../../components/FacilityCard';
 import { Calendar, LocaleConfig } from 'react-native-calendars';
 import { TouchableOpacity } from 'react-native';
 import TimeSlots from '../../components/TimeSlots';
+import { useFocusEffect } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 LocaleConfig.locales['tr'] = {
   monthNames: ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'],
@@ -26,25 +29,58 @@ const ReservationScreen = () => {
   const [showFacilities, setShowFacilities] = useState(true);
   const [showCreateButton, setShowCreateButton] = useState(false);
 
-  const facilities = [
-    { id: '1', name: 'Futbol Sahası A', type: 'Futbol' },
-    { id: '2', name: 'Basketbol Sahası B', type: 'Basketbol' },
-    // Diğer tesisleri ekleyebilirsiniz
-  ];
-
-
-
-  const handleCreateReservation = () => {
-    // Check if all necessary data is available
-
-    const reservationData = {
-      facilityId: selectedFacility.id,
-      timeSlot: selectedTimeSlot,
-      selectedDay: selectedDay,
+  
+  // const facilities = [
+  //   { id: '1', name: 'Fbol Sahası A', type: 'Futbol' },
+  //   { id: '2', name: 'Basketbol Sahası B', type: 'Basketbol' },
+  //   // Diğer tesisleri ekleyebilirsiniz
+  // ];
+  const getUserId = async () => {
+    const userId = await AsyncStorage.getItem('userId');
+    console.log("Fonk userId: ", userId);
+    return userId;
+  };
+  
+  const [facilities, setFacilities] = useState([]);
+  useFocusEffect(
+    React.useCallback(() => {
+      fetchData();
+    }, []) // Empty dependency array means it only runs when the component mounts and unmounts
+);
+const fetchData = async () => {
+    // Fetch facilities from the backend API when the component mounts
+    const fetchFacilities = async () => {
+      try {
+        const response = await axios.post('https://c4f3-176-42-133-250.ngrok-free.app/facilities/listFacility');
+        setFacilities(response.data.data); // Assuming the response contains an arr of facilities
+        
+        console.log(response.data);
+      } catch (error) {
+        console.error('Error fetching facilities:', error);
+      }
     };
 
+    fetchFacilities();
+  }; 
+  console.log("facilities: ", facilities);
+  const handleCreateReservation = async () => {
+    // Check if all necessary data is available
+    
+    // const userId = getUserId();
+    const userId = await AsyncStorage.getItem('userId');
+    console.log("userId: ", userId);
+    const reservationData = {
+      facilityId: selectedFacility.facilityId,
+      userId: userId,
+      startTime: selectedTimeSlot,
+      date: selectedDay,
+    };
+    console.log("reservationdata: ",reservationData);
+    
+    // TODO: List facilities
+
     // Example backend API endpoint
-    const backendApiEndpoint = 'https://example.com/api/createReservation';
+    const backendApiEndpoint = 'https://c4f3-176-42-133-250.ngrok-free.app/reservations/makeReservation';
 
     // Send data to the backend using axios
     axios.post(backendApiEndpoint, reservationData)
@@ -64,11 +100,13 @@ const ReservationScreen = () => {
     setSelectedTimeSlot(null);
     setSelectedDate(null);
     setSelectedDay(null);
+    console.log("hello")
   };
 
 
   const handleFacilityPress = (facility) => {
     console.log('Tesis Seçildi: ', facility);
+    console.log("bu seçilmiş facilitidir: ",facility)
     setSelectedFacility(facility);
     setShowFacilities(false);
     setShowCalendar(true); // Tesis kartına tıklandığında takvimi göster
@@ -77,9 +115,10 @@ const ReservationScreen = () => {
 
   const handleTimeSlotPress = (startTime, endTime) => {
     console.log('Seçilen Zaman Aralığı: ', startTime, endTime);
-    setSelectedTimeSlot(`${startTime}-${endTime}`);
+    setSelectedTimeSlot(`${startTime}`);
     setShowCreateButton(true);
     setShowTimeSlots(false);
+    setShowCalendar(false);
     // Burada seçilen zaman aralığına göre işlemleri gerçekleştirebilirsiniz
   };
 
@@ -87,6 +126,8 @@ const ReservationScreen = () => {
     setShowCalendar(false); // Takvim kapatıldığında
     setShowFacilities(true);
     setShowCreateButton(false);
+    setShowTimeSlots(false);
+    console.log(facilities);
   };
 
   const handleDayPress = (day) => {
@@ -104,7 +145,7 @@ const ReservationScreen = () => {
       {showFacilities && (
         <FlatList
           data={facilities}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item) => item.facilityId}
           renderItem={({ item }) => (
             <FacilityCard facility={item} onPress={() => handleFacilityPress(item)} />
           )}

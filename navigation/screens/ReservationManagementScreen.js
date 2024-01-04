@@ -1,86 +1,111 @@
 // ReservationManagementScreen.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
 import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useFocusEffect } from '@react-navigation/native';
 
 const ReservationManagementScreen = () => {
-    // Örnek rezervasyonlar
-    //     const [reservations, setReservations] = useState([]);
-    const [reservations, setReservations] = useState([
-        { id: '1', name: 'Futbol Sahası', date: '2023-01-01', time: '12:00' },
-        { id: '2', name: 'Basketbol Sahası', date: '2023-02-01', time: '14:30' },
-        // ... diğer rezervasyonlar
-    ]);
-
-    /*
-    useEffect(() => {
-        // Backend API endpoint
-        const backendApiEndpoint = 'https://849e-188-119-40-246.ngrok-free.app/reservations/listReservation';
-
-        // Axios ile backend'den rezervasyonları getirme
-        axios.get(backendApiEndpoint)
-            .then(response => {
-                setReservations(response.data);
-            })
-            .catch(error => {
-                console.error('Error getting reservations:', error);
-                // Hata durumunda uygun şekilde işleyin
-            });
-    }, []); 
-    */
-
+    
+    const [reservations, setReservations] = useState([]);
     const [selectedReservation, setSelectedReservation] = useState(null);
+
+    const fetchReservations = async () => {
+        const userId = await AsyncStorage.getItem('userId');
+        const requestData = {
+            userId: userId,
+        };
+        const backendApiEndpoint = 'https://c4f3-176-42-133-250.ngrok-free.app/reservations/listReservation';
+
+        try {
+            const response = await axios.post(backendApiEndpoint, requestData);
+            setReservations(response.data.data);
+            console.log(response.data.data);
+        } catch (error) {
+            console.error('Error getting reservations:', error);
+            // Handle the error appropriately
+        }
+    };
+
+    useEffect(() => {
+        // Initial fetch of reservations
+        fetchReservations();
+    }, []);
+    
+    useFocusEffect(
+        React.useCallback(() => {
+            fetchReservations();
+        }, []) // Empty dependency array means it only runs when the component mounts and unmounts
+    );
 
     const handleCancelReservation = () => {
         if (selectedReservation) {
-
-            const { id } = selectedReservation;
-
-            const backendApiEndpoint = 'https://849e-188-119-40-246.ngrok-free.app/reservations/deleteReservation';
+            const { reservationId } = selectedReservation;
             
-            
+            const backendApiEndpoint = 'https://c4f3-176-42-133-250.ngrok-free.app/reservations/deleteReservation';
+
             const requestData = {
-                id: id,
+                id: reservationId,
             };
 
             axios.post(backendApiEndpoint, requestData)
                 .then(response => {
                     console.log('Reservation canceled successfully:', response.data);
-                    // Backend başarıyla yanıt verdiğinde yerel state'i güncelle
-                    const updatedReservations = reservations.filter(item => item.id !== id);
-                    setReservations(updatedReservations);
+
+                    // After canceling, fetch the updated reservations
+                    fetchReservations();
+
                     setSelectedReservation(null);
                 })
                 .catch(error => {
                     console.error('Error canceling reservation:', error);
-                    // Hata durumunda uygun şekilde işleyin
+                    // Handle the error appropriately
                 });
-
-
-            const updatedReservations = reservations.filter((item) => item.id !== selectedReservation.id);
-            setReservations(updatedReservations);
-            setSelectedReservation(null);
         }
     };
+    const fetchData = async () => {
+        const userId = await AsyncStorage.getItem('userId');
+        const requestData = {
+            userId: userId,
+        };
+        const backendApiEndpoint = 'https://c4f3-176-42-133-250.ngrok-free.app/reservations/listReservation';
 
+        // Axios ile backen'denrezervasyonları getirme
+        axios.post(backendApiEndpoint, requestData)
+            .then(response => {
+                setReservations(response.data.data);
+                console.log(response.data.data);
+            })
+            .catch(error => {
+                console.error('Error getting reservations:', error);
+                // Hata durumunda ugun şekilde işleyin
+            });
+    }
+
+    
+    useEffect( () => {
+        // Bacend AI enpoint
+        fetchData();
+        
+    }, []); 
+    
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Rezervasyon Yönetimi</Text>
             {reservations.length > 0 ? (
                 <FlatList
                     data={reservations}
-                    keyExtractor={(item) => item.id}
+                    keyExtractor={(item) => item.reservationId}
                     renderItem={({ item }) => (
                         <TouchableOpacity
                             onPress={() => setSelectedReservation(item)}
                             style={[
                                 styles.reservationItem,
-                                selectedReservation && selectedReservation.id === item.id && styles.selectedItem,
+                                selectedReservation && selectedReservation.reservationId === item.reservationId && styles.selectedItem,
                             ]}
                         >
-                            <Text style={styles.reservationText}>{item.name}</Text>
+                            <Text style={styles.reservationText}>{item.facilityType}</Text>
                             <Text style={styles.reservationText}>Tarih: {item.date}</Text>
-                            <Text style={styles.reservationText}>Saat: {item.time}</Text>
                         </TouchableOpacity>
                     )}
                 />

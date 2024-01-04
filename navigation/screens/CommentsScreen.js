@@ -1,59 +1,77 @@
 // CommentsScreen.js
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, TextInput, Button, StyleSheet, TouchableOpacity } from 'react-native';
+import axios from 'axios'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const CommentsScreen = () => {
     const [selectedFacility, setSelectedFacility] = useState(null);
-    //    const [facilities, setFacilities] = useState([]);
+       const [facilities, setFacilities] = useState([]);
     const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState('');
     const [userRating, setUserRating] = useState(0);
 
-    const facilities = [
-        { id: '1', name: 'Futbol Sahası' },
-        { id: '2', name: 'Basketbol Sahası' },
-        // ... diğer tesisler
-    ];
-
-    /*
+    // const facilities = [
+    //     { id: '1', name: 'Futbol Sahası' },
+    //     { id: '2', name: 'Basketbol Sahası' },
+    //     // ... diğer tesisler
+    // ];
+    
+    
     useEffect(() => {
-        // Backend'ten tesisleri çekmek için endpoint
-        const fetchFacilitiesEndpoint = 'https://example.com/api/fetchFacilities';
-
-        axios.get(fetchFacilitiesEndpoint)
-            .then(response => {
-                setFacilities(response.data);
-            })
-            .catch(error => {
-                console.error('Error fetching facilities:', error);
-            });
-    }, []);
-    */
+        // Fetch facilities from the backend API when the component mounts
+        const fetchFacilities = async () => {
+          try {
+            const response = await axios.post('https://c4f3-176-42-133-250.ngrok-free.app/facilities/listFacility');
+            setFacilities(response.data.data); // Assuming the response contains an arr of facilities
+            
+            console.log(response.data);
+          } catch (error) {
+            console.error('Error fetching facilities:', error);
+          }
+        };
+    
+        fetchFacilities();
+      }, []); 
+    
+    const handleCloseComments = () => {
+        setSelectedFacility(null);
+        setComments([]);
+    };
 
     const handleFacilitySelection = (facility) => {
         setSelectedFacility(facility);
         // Belirli bir tesis seçildiğinde, o tesise ait yorumları getirebilirsiniz.
         // Örnek: fetchCommentsForFacility(facility.id);
         // Tesis seçildiğinde, o tesise ait yorumları çekmek için yeni bir fonksiyon kullanabilirsiniz.
-        //fetchCommentsForFacility(facility.id);
+        console.log("facility: ",facility);
+        console.log("facilityId: ",facility.facilityId);
+        fetchCommentsForFacility(facility.facilityId);
+        
     };
 
 
-    /*const fetchCommentsForFacility = (facilityId) => {
-        // Backend'ten tesis için yorumları çekmek için endpoint
-        const fetchCommentsEndpoint = `https://example.com/api/fetchComments/${facilityId}`;
-
-        axios.get(fetchCommentsEndpoint)
+    const fetchCommentsForFacility = (facilityId) => {
+        // Backend'ten tesis için yorumlar çekmek için enpoint
+        console.log("facilityID(comments): ", facilityId)
+        const fetchCommentsEndpoint = `https://c4f3-176-42-133-250.ngrok-free.app/comments/listComment`;
+        const requestData = {
+            facilityId: facilityId,
+        };
+        console.log("requestData: ", requestData)
+        
+        axios.post(fetchCommentsEndpoint, requestData)
             .then(response => {
-                setComments(response.data);
+                setComments(response.data.data);
+                console.log(response.data)
             })
             .catch(error => {
                 console.error('Error fetching comments:', error);
             });
-    };*/
+    };
 
-    const handleAddComment = () => {
+    /*const handleAddComment = () => {
         // Yeni yorumu eklemek için
         if (selectedFacility && newComment.trim() !== '') {
             setComments([
@@ -71,41 +89,33 @@ const CommentsScreen = () => {
             // Yeni yorumu sunucuya göndermek için bir fonksiyonu çağırabilirsiniz.
             // Örnek: sendCommentToServer(selectedFacility.id, newComment);
         }
-    };
+    };*/
 
 
-    /*
+    
     const handleAddComment = () => {
         // Yeni yorumu eklemek için
         if (selectedFacility && newComment.trim() !== '') {
             // Yeni yorumu sunucuya göndermek için bir fonksiyonu çağırabilirsiniz.
-            sendCommentToServer(selectedFacility.id, newComment);
+            sendCommentToServer(selectedFacility.facilityId, newComment);
         }
     };
 
-    const sendCommentToServer = (facilityId, commentText) => {
+    const sendCommentToServer = async (facilityId, commentText) => {
         // Backend'e yeni yorumu göndermek için endpoint
-        const sendCommentEndpoint = 'https://example.com/api/sendComment';
-
+        const sendCommentEndpoint = 'https://c4f3-176-42-133-250.ngrok-free.app/comments/addComment';
+        const userId = await AsyncStorage.getItem('userId');
         const requestData = {
             facilityId: facilityId,
-            commentText: commentText,
-            userRating: userRating,
+            comment: commentText,
+            userId: userId,
+            // userRating: userRating,
         };
 
         axios.post(sendCommentEndpoint, requestData)
             .then(response => {
                 console.log('Comment sent successfully:', response.data);
-                // Yeni yorum sunucuya başarıyla gönderildiğinde, yerel state'i güncelleyin
-                setComments([
-                    ...comments,
-                    {
-                        id: comments.length + 1,
-                        text: newComment,
-                        user: 'John Doe', // Kullanıcı adını backend'ten alabilirsiniz.
-                        rating: userRating,
-                    },
-                ]);
+                fetchCommentsForFacility(facilityId);
                 setNewComment('');
                 setUserRating(0);
             })
@@ -116,7 +126,7 @@ const CommentsScreen = () => {
     };
 
 
-    */
+    
 
     const renderStar = (index) => {
         return (
@@ -131,30 +141,34 @@ const CommentsScreen = () => {
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Facilities</Text>
-
+    
             {!selectedFacility ? (
                 <FlatList
                     data={facilities}
-                    keyExtractor={(item) => item.id}
+                    keyExtractor={(item) => item.facilityId}
                     renderItem={({ item }) => (
                         <TouchableOpacity
                             style={styles.facilityButton}
                             onPress={() => handleFacilitySelection(item)}
                         >
-                            <Text>{item.name}</Text>
+                            <Text>{item.facilityType}</Text>
                         </TouchableOpacity>
                     )}
                 />
             ) : (
                 <View style={styles.commentsContainer}>
+                    <TouchableOpacity onPress={handleCloseComments} style={styles.closeButton}>
+                        <Text style={styles.closeButtonText}>Kapat</Text>
+                    </TouchableOpacity>
+    
                     <Text>{selectedFacility.name} için Yorumlar:</Text>
                     <FlatList
                         data={comments}
-                        keyExtractor={(item) => item.id.toString()}
+                        keyExtractor={(item) => item.id}
                         renderItem={({ item }) => (
                             <View style={styles.commentItem}>
-                                <Text style={styles.commentUser}>{item.user}</Text>
-                                <Text>{item.text}</Text>
+                                <Text style={styles.commentUser}>{item.userName}</Text>
+                                <Text>{item.comment}</Text>
                                 <View style={styles.commentRating}>
                                     <View style={styles.starsContainer}>
                                         {[0, 1, 2, 3, 4].map((index) => (
@@ -172,14 +186,14 @@ const CommentsScreen = () => {
                             </View>
                         )}
                     />
-
+    
                     <View style={styles.ratingContainer}>
                         <Text>Değerlendir:</Text>
                         <View style={styles.starsContainer}>
                             {[0, 1, 2, 3, 4].map((index) => renderStar(index))}
                         </View>
                     </View>
-
+    
                     <TextInput
                         style={styles.input}
                         placeholder="Yorumunuzu buraya ekleyin"

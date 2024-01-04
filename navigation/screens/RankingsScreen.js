@@ -2,41 +2,49 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, StyleSheet } from 'react-native';
 import axios from 'axios';
+import { useFocusEffect } from '@react-navigation/native';
 
 const RankingsScreen = () => {
     const [users, setUsers] = useState([]);
 
-    useEffect(() => {
-        // Örnek kullanıcılar ve rankları
-        const sampleUsers = [
-            { id: '1', name: 'User 1', rank: 5 },
-            { id: '2', name: 'User 2', rank: 3 },
-            { id: '3', name: 'User 3', rank: 8 },
-            // ... diğer kullanıcılar
-        ];
+    // useEffect(() => {
+    //     // Örnek kullanıcılar ve rankları
+    //     const sampleUsers = [
+    //         { id: '1', name: 'User 1', rank: 5 },
+    //         { id: '2', name: 'User 2', rank: 3 },
+    //         { id: '3', name: 'User 3', rank: 8 },
+    //         // ... diğer kullanıcılar
+    //     ];
 
-        // Kullanıcıları ranklarına göre sırala
-        const sortedUsers = sampleUsers.sort((a, b) => b.rank - a.rank);
+    //     // Kullanıcıları ranklarına göre sırala
+    //     const sortedUsers = sampleUsers.sort((a, b) => b.rank - a.rank);
 
-        setUsers(sortedUsers);
-    }, []);
+    //     setUsers(sortedUsers);
+    // }, []);
 
-    /*
-    useEffect(() => {
+    
+    const fetchData = () => {
         // Backend'ten kullanıcıları çekmek için endpoint
-        const fetchUsersEndpoint = 'https://example.com/api/fetchUsers';
+        const fetchUsersEndpoint = 'https://c4f3-176-42-133-250.ngrok-free.app/students/getRankings';
 
-        axios.get(fetchUsersEndpoint)
+        axios.post(fetchUsersEndpoint)
             .then(response => {
                 // Kullanıcıları ranklarına göre sırala
-                const sortedUsers = response.data.sort((a, b) => b.rank - a.rank);
+                const sortedUsers = response.data.data;
+                console.log(sortedUsers);
                 setUsers(sortedUsers);
             })
             .catch(error => {
                 console.error('Error fetching users:', error);
             });
-    }, []);
-    */
+    };
+
+    useFocusEffect(
+        React.useCallback(() => {
+          fetchData();
+        }, []) // Empty dependency array means it only runs when the component mounts and unmounts
+    );
+    
 
     return (
         <View style={styles.container}>
@@ -49,7 +57,7 @@ const RankingsScreen = () => {
                         <View style={index % 2 === 0 ? styles.evenItem : styles.oddItem}>
                             <View style={styles.userInfoContainer}>
                                 <Text style={styles.userName}>{`${index + 1}. ${item.name}`}</Text>
-                                <Text style={styles.userRank}>{`  Rank: ${item.rank}`}</Text>
+                                <Text style={styles.userRank}>{`  Rank: ${item.score}`}</Text>
                             </View>
                         </View>
                     )}
