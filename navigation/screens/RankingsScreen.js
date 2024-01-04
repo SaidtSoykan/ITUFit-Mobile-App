@@ -48,7 +48,7 @@ const RankingsScreen = () => {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Sıralama</Text>
+            <Text style={styles.title}>Liderlik Tablosu</Text>
             {users.length > 0 ? (
                 <FlatList
                     data={users}
@@ -78,13 +78,17 @@ const styles = StyleSheet.create({
         backgroundColor: '#f5f5f5', // Arka plan rengi
     },
     title: {
-        fontSize: 24,
+        fontSize: 45,
         marginBottom: 16,
         color: '#333', // Başlık rengi
+        borderBottomWidth: 2,
+        borderBottomColor: 'black', // Change to the desired underline color
+        alignSelf: 'center',
+        marginTop: 5,
     },
     evenItem: {
         borderWidth: 3, // Kalın kenar
-        borderColor: 'red', // Kenar rengi
+        borderColor: 'black', // Kenar rengi
         padding: 16,
         marginVertical: 8,
         backgroundColor: '#f9f9f9', // Çift sıradaki öğelerin arka plan rengi

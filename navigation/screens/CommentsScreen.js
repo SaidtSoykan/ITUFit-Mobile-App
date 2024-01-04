@@ -157,9 +157,6 @@ const CommentsScreen = () => {
                 />
             ) : (
                 <View style={styles.commentsContainer}>
-                    <TouchableOpacity onPress={handleCloseComments} style={styles.closeButton}>
-                        <Text style={styles.closeButtonText}>Kapat</Text>
-                    </TouchableOpacity>
     
                     <Text>{selectedFacility.name} için Yorumlar:</Text>
                     <FlatList
@@ -200,7 +197,17 @@ const CommentsScreen = () => {
                         onChangeText={(text) => setNewComment(text)}
                         value={newComment}
                     />
-                    <Button title="Yorum Ekle" onPress={handleAddComment} />
+                    <View style={styles.buttonContainer}>
+    <TouchableOpacity onPress={handleAddComment} style={styles.button}>
+        <Text style={styles.buttonText}>Yorum Ekle</Text>
+    </TouchableOpacity>
+    <View style={{ marginHorizontal: 10 }} /> 
+    <TouchableOpacity onPress={handleCloseComments} style={styles.button}>
+        <Text style={styles.buttonText}>Geri Dön</Text>
+    </TouchableOpacity>
+</View>
+
+               
                 </View>
             )}
         </View>
@@ -215,8 +222,13 @@ const styles = StyleSheet.create({
         padding: 16,
     },
     title: {
-        fontSize: 24,
+        fontSize: 45,
         marginBottom: 16,
+        color: '#333', // Başlık rengi
+        borderBottomWidth: 2,
+        borderBottomColor: 'black', // Change to the desired underline color
+        alignSelf: 'center',
+        marginTop: 5,
     },
     facilityButton: {
         borderWidth: 1,
@@ -277,6 +289,51 @@ const styles = StyleSheet.create({
     filledStar: {
         backgroundColor: '#f8d64e',
     },
+    closeButton: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        backgroundColor: 'black',
+        padding: 15,
+        borderRadius: 20,
+        zIndex: 1,
+    },
+    closeButtonText: {
+        fontSize: 18,
+        color: 'white',
+        fontWeight: 'bold',
+    },
+    buttonContainer: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        marginTop: 12,
+    },
+    
+    button: {
+        backgroundColor: '#007BFF', // You can change the background color as needed
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        borderRadius: 5,
+    },
+    
+    buttonText: {
+        color: 'white',
+        fontSize: 16,
+        textAlign: 'center',
+    },
+    title: {
+        fontSize: 32, // Adjust the font size as needed
+        fontWeight: 'bold',
+        color: 'black', // Blue color, you can change it as desired
+        textAlign: 'center',
+        marginTop: 20, // Adjust the margin-top for vertical positioning
+        borderBottomWidth: 2,
+        borderBottomColor: 'black', // Match the title color or choose a different one
+        width: '50%', // Adjust the width of the underline as needed
+        alignSelf: 'center',
+        marginTop: 5, //
+    },
+    
 });
 
 export default CommentsScreen;
