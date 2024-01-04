@@ -38,14 +38,16 @@ const ReservationManagementScreen = () => {
         }, []) // Empty dependency array means it only runs when the component mounts and unmounts
     );
 
-    const handleCancelReservation = () => {
+    const handleCancelReservation = async () => {
         if (selectedReservation) {
             const { reservationId } = selectedReservation;
+            const userId = await AsyncStorage.getItem('userId');
             
             const backendApiEndpoint = 'http://13.50.243.223:8080/reservations/deleteReservation';
 
             const requestData = {
-                id: reservationId,
+                reservationId: reservationId,
+                userId: userId,
             };
 
             axios.post(backendApiEndpoint, requestData)
