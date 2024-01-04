@@ -137,7 +137,7 @@ const styles = StyleSheet.create({
     },
     reservationItem: {
         borderWidth: 2,
-        borderColor: 'green',
+        borderColor: 'black',
         borderRadius: 8,
         padding: 8,
         marginVertical: 8,
