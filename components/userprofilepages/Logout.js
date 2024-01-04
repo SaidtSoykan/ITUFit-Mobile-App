@@ -1,13 +1,15 @@
 import React from 'react';
 import { View, Text, Button, Alert } from 'react-native';
 import styles from '../../styles';
+import { AuthContext } from '../../navigation/context';
 
-function LogoutScreen(props) {
+function LogoutScreen() {
+  const { signOut } = React.useContext(AuthContext);
   const handleLogout = () => {
     try {
       // Çıkış yapılacak işlemleri ekleyebilirsiniz, örneğin sunucuya logout isteği gönderme
       // Bu örnekte, sadece authorize fonksiyonu çağrılarak kullanıcı bilgileri temizleniyor.
-      props.authorize(false, null, null);
+      signOut();
 
       // Çıkış başarılı
       console.log('Çıkış Başarılı');

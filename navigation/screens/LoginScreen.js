@@ -2,12 +2,11 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, Button, Alert } from 'react-native';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import { AuthContext } from '../context';
 import styles from '../../styles';
 
-export function LoginScreen(props) {
+export function LoginScreen() {
   const [isLoginScreen, setIsLoginScreen] = useState(true);
-  
 
   const RegisterScreen = ({ setIsLoginScreen }) => {
     const [email, setEmail] = useState('');
@@ -79,6 +78,7 @@ export function LoginScreen(props) {
   };
 
   const LoginPage = ({ setIsLoginScreen }) => {
+    const { signIn } = React.useContext(AuthContext);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const handleLogin = async () => {
@@ -100,7 +100,7 @@ export function LoginScreen(props) {
           
 
           // props.authorize fonksiyonunu düzenleyerek kullanıcı bilgilerini saklayabilirsiniz
-          props.authorize(true, userId, jwtToken);
+          signIn();
           // Alert.alert('Success', 'Login successful. Welcome back, user ID: ' + userId);
         } else {
           // Backend authentication failed

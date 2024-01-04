@@ -10,7 +10,6 @@ import Logout from '../../components/userprofilepages/Logout';
 
 export default function ProfileScreen() {
     const Stack = createNativeStackNavigator();
-
     return (
             <Stack.Navigator
             initialRouteName ='UserProfileMain'>
@@ -19,7 +18,7 @@ export default function ProfileScreen() {
                 <Stack.Screen name="AcademicProgram" component={AcademicProgram} />
                 <Stack.Screen name="ExerciseSuggestion" component={ExerciseSuggestion} />
                 <Stack.Screen name="ChangePassword" component={ChangePassword} />
-            <Stack.Screen name="Logout" component={Logout}/>
+                <Stack.Screen name="Logout" component={Logout}/>
             </Stack.Navigator>
     );
 }
