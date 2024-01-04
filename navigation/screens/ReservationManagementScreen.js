@@ -38,14 +38,16 @@ const ReservationManagementScreen = () => {
         }, []) // Empty dependency array means it only runs when the component mounts and unmounts
     );
 
-    const handleCancelReservation = () => {
+    const handleCancelReservation = async () => {
         if (selectedReservation) {
             const { reservationId } = selectedReservation;
+            const userId = await AsyncStorage.getItem('userId');
             
             const backendApiEndpoint = 'https://c4f3-176-42-133-250.ngrok-free.app/reservations/deleteReservation';
 
             const requestData = {
-                id: reservationId,
+                reservationId: reservationId,
+                userId: userId,
             };
 
             axios.post(backendApiEndpoint, requestData)
