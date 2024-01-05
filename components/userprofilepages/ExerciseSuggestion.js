@@ -7,9 +7,9 @@ import { Card, ListItem } from 'react-native-elements';
 const ExerciseSuggestion = () => {
   //const [exerciseData, setExerciseData] = useState([]);
   const exerciseData = [
-    { id: 1, name: 'Koşu', date: '2024-01-02', time: '08:00' },
-    { id: 2, name: 'Yüzme', date: '2024-01-03', time: '17:30' },
-    { id: 3, name: 'Ağırlık Antrenmanı', date: '2024-01-04', time: '10:00' },
+    { id: 1, name: 'FOOTBALL', date: '2024-01-08', time: '12:00' },
+    { id: 2, name: 'POOL', date: '2024-01-09', time: '14:00' },
+    { id: 3, name: 'TABLE_TENNIS', date: '2024-01-10', time: '09:00' },
   ];
 
    

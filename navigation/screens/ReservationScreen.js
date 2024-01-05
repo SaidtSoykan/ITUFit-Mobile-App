@@ -181,7 +181,7 @@ const fetchData = async () => {
 
       {showCreateButton && (
         <View>
-          <Text>{`Tesis Seçildi: ${selectedFacility.name} (${selectedFacility.type})`}</Text>
+          {/* <Text>{`Tesis Seçildi: ${selectedFacility.name} (${selectedFacility.type})`}</Text> */}
           <Text>{`Seçilen Zaman Aralığı: ${selectedTimeSlot}`}</Text>
           <Text>{`Seçilen Gün: ${selectedDay}`}</Text>
           <Button title="Rezervasyon Oluştur" onPress={handleCreateReservation} />

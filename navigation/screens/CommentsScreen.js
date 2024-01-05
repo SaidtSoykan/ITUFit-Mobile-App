@@ -158,7 +158,7 @@ const CommentsScreen = () => {
             ) : (
                 <View style={styles.commentsContainer}>
     
-                    <Text>{selectedFacility.name} için Yorumlar:</Text>
+                    <Text>Yorumlar:</Text>
                     <FlatList
                         data={comments}
                         keyExtractor={(item) => item.id}
@@ -166,7 +166,7 @@ const CommentsScreen = () => {
                             <View style={styles.commentItem}>
                                 <Text style={styles.commentUser}>{item.userName}</Text>
                                 <Text>{item.comment}</Text>
-                                <View style={styles.commentRating}>
+                                {/* <View style={styles.commentRating}>
                                     <View style={styles.starsContainer}>
                                         {[0, 1, 2, 3, 4].map((index) => (
                                             <View
@@ -179,17 +179,17 @@ const CommentsScreen = () => {
                                         ))}
                                     </View>
                                     <Text style={styles.commentRatingText}>({item.rating}/5)</Text>
-                                </View>
+                                </View> */}
                             </View>
                         )}
                     />
     
-                    <View style={styles.ratingContainer}>
+                    {/* <View style={styles.ratingContainer}>
                         <Text>Değerlendir:</Text>
                         <View style={styles.starsContainer}>
                             {[0, 1, 2, 3, 4].map((index) => renderStar(index))}
                         </View>
-                    </View>
+                    </View> */}
     
                     <TextInput
                         style={styles.input}
@@ -250,7 +250,7 @@ const styles = StyleSheet.create({
     commentUser: {
         fontSize: 18,
         fontWeight: 'bold',
-        backgroundColor: '#ffd700', // Yorum atan kişinin adının arka planı sarı renkli
+
         padding: 8,
         marginBottom: 8,
     },

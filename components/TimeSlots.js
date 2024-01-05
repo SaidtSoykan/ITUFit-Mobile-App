@@ -21,7 +21,7 @@ const TimeSlots = ({ selectedDate, onClose, onTimeSlotPress }) => {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>{`Zaman Aralıkları (${selectedDate})`}</Text>
+            <Text style={styles.title}>{`Zaman Aralıkları`}</Text>
             <FlatList
                 data={timeSlots}
                 keyExtractor={(item) => item.id}

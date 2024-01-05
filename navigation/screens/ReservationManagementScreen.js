@@ -71,7 +71,7 @@ const ReservationManagementScreen = () => {
             userId: userId,
         };
         const backendApiEndpoint = 'http://13.50.243.223:8080/reservations/listReservation';
-
+        console.log("requestData: ", requestData);
         // Axios ile backen'denrezervasyonları getirme
         axios.post(backendApiEndpoint, requestData)
             .then(response => {
