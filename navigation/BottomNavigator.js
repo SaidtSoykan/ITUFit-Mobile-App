@@ -27,6 +27,10 @@ function BottomNavigator() {
             <Tab.Navigator
                 initialRouteName={reservationName}
                 screenOptions={({ route }) => ({
+                    tabBaractiveTintColor: 'tomato',
+                    tabBarinactiveTintColor: 'grey',
+                    tabBarlabelStyle: { paddingBottom: 5, fontSize: 10 },
+                    tabBarstyle: { dsplay: 'flex' },
                     tabBarIcon: ({ focused, color, size }) => {
                         let iconName;
                         let rn = route.name;
@@ -46,13 +50,7 @@ function BottomNavigator() {
                         // You can return any component that you like here!
                         return <Ionicons name={iconName} size={size} color={color} />;
                     },
-                })}
-                tabBarOptions={{
-                    activeTintColor: 'tomato',
-                    inactiveTintColor: 'grey',
-                    labelStyle: { paddingBottom: 5, fontSize: 10 },
-                    style: { padding: 10, height: 70 }
-                }}>
+                })}>
                 
                 <Tab.Screen name={reservationName} component={ReservationScreen} />
                 <Tab.Screen name={reservationManagementName} component={ReservationManagementScreen} />

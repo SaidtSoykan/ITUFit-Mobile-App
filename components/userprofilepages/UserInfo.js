@@ -40,7 +40,7 @@ const PersonalInfoScreen = () => {
 
   const handleSave = async () => {
     calculateBasalMetabolism();
-    const backendApiEndpoint = 'http://13.50.243.223:8080/students/physicalInfo';
+    const backendApiEndpoint = 'http://13.50.243.223:8080/students/physicalinfo';
     const userId = await AsyncStorage.getItem('userId');
     console.log("hello")
             const requestData = {
