@@ -1,50 +1,48 @@
 // ChangePassword.js
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 
 const ChangePasswordScreen = () => {
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmNewPassword, setConfirmNewPassword] = useState('');
 
-  const handleChangePassword = () => {
-    // Örnek kontroller
-    if (currentPassword === 'gecerli_sifre' && newPassword === confirmNewPassword) {
-      // Şifre değiştirme işlemleri burada gerçekleştirilebilir.
-      Alert.alert('Başarılı', 'Şifre değiştirildi!');
-    } else {
-      Alert.alert('Hata', 'Geçersiz şifre veya yeni şifreler eşleşmiyor.');
-    }
-  };
+  // const handleChangePassword = () => {
+  //   // Örnek kontroller
+  //   if (currentPassword === 'gecerli_sifre' && newPassword === confirmNewPassword) {
+  //     // Şifre değiştirme işlemleri burada gerçekleştirilebilir.
+  //     Alert.alert('Başarılı', 'Şifre değiştirildi!');
+  //   } else {
+  //     Alert.alert('Hata', 'Geçersiz şifre veya yeni şifreler eşleşmiyor.');
+  //   }
+  // };
 
-  /*
+  
   const handleChangePassword = async () => {
-    try {
-      const response = await fetch('https://your-backend-api.com/changePassword', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          currentPassword,
-          newPassword,
-          confirmNewPassword,
-        }),
-      });
-
-      if (response.ok) {
-        Alert.alert('Success', 'Password changed successfully!');
-      } else {
-        const errorData = await response.json();
-        Alert.alert('Error', errorData.message || 'Failed to change password.');
-      }
-    } catch (error) {
-      console.error('Error while changing password:', error);
-      Alert.alert('Error', 'An error occurred while changing password.');
-    }
+    
+    const backendApiEndpoint = 'https://c4f3-176-42-133-250.ngrok-free.app/students/changepassword';
+    const userId = await AsyncStorage.getItem('userId');
+    const requestData = {
+      userId: userId,
+      oldPassword: currentPassword,
+      newPassword: newPassword,
+      newPasswordConfirmation: confirmNewPassword,   
+    };
+    console.log(requestData);
+    axios.post(backendApiEndpoint, requestData)
+        .then(response => {
+          
+            Alert.alert('Başarılı', 'Şifre değiştirildi!');
+        })
+        .catch(error => {
+            console.error('Şifre Değiştirilemedi:', error);
+            // Handle the error appropriately
+        });
   };
 
-  */
+  
 
   return (
     <View style={styles.container}>

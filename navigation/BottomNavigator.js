@@ -12,7 +12,7 @@ import ProfileScreen from './screens/ProfileScreen';
 
 //Screen names
 const reservationName = "Reservation";
-const reservationManagementName = "ReservationManagement";
+const reservationManagementName = "Management";
 const commentsName = "Comments";
 const rankingsName = "Rankings";
 const profileName = "Profile";
@@ -50,7 +50,7 @@ function BottomNavigator() {
                 tabBarOptions={{
                     activeTintColor: 'tomato',
                     inactiveTintColor: 'grey',
-                    labelStyle: { paddingBottom: 10, fontSize: 10 },
+                    labelStyle: { paddingBottom: 5, fontSize: 10 },
                     style: { padding: 10, height: 70 }
                 }}>
                 
