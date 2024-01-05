@@ -7,16 +7,11 @@ function LogoutScreen() {
   const { signOut } = React.useContext(AuthContext);
   const handleLogout = () => {
     try {
-      // Çıkış yapılacak işlemleri ekleyebilirsiniz, örneğin sunucuya logout isteği gönderme
-      // Bu örnekte, sadece authorize fonksiyonu çağrılarak kullanıcı bilgileri temizleniyor.
+      
       signOut();
 
-      // Çıkış başarılı
       console.log('Çıkış Başarılı');
 
-      // İstediğiniz bir sayfaya yönlendirme yapabilirsiniz
-      // Örneğin:
-      // props.navigation.navigate('AnaSayfa');
     } catch (error) {
       console.error('Error during logout:', error);
       Alert.alert('Error', 'An error occurred during logout. Please try again.');

@@ -24,56 +24,7 @@ const DaySchedule = () => {
         }
     };
 
-    /*
-    const handleSaveButtonPress = async () => {
-        try {
-            const response = await fetch('https://your-backend-api.com/saveMarkedDays', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    markedDays: getMarkedDays(),
-                }),
-            });
-
-            if (response.ok) {
-                Alert.alert('Success', 'Marked days saved successfully.');
-            } else {
-                Alert.alert('Error', 'Failed to save marked days.');
-            }
-        } catch (error) {
-            console.error('Error while saving marked days:', error);
-            Alert.alert('Error', 'An error occurred while saving marked days.');
-        }
-    };
-
-    const getMarkedDays = () => {
-        const markedDays = [];
-
-        for (let rowIndex = 0; rowIndex < tableData.length; rowIndex++) {
-            for (let colIndex = 0; colIndex < tableData[rowIndex].length; colIndex++) {
-                if (tableData[rowIndex][colIndex]) {
-                    markedDays.push({
-                        day: days[rowIndex],
-                        hour: hours[colIndex],
-                    });
-                }
-            }
-        }
-
-        return markedDays;
-    };
-
-    */
-
-
-                /* bu kısım returnin içerisinde olacak !!!
-    <TouchableOpacity style={styles.saveButton} onPress={handleSaveButtonPress}>
-        <Text style={styles.saveButtonText}>Save</Text>
-    </TouchableOpacity>
-*/
-
+ 
     return (
         <View style={styles.container}>
             <View style={styles.timeColumn}>{renderTable()}</View>

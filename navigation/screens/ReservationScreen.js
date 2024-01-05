@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
-import { FlatList } from 'react-native';  // Make sure toinclude this line
-import axios from 'axios'; // Import axios
+import { FlatList } from 'react-native'; 
+import axios from 'axios'; 
 import FacilityCard from '../../components/FacilityCard';
 import { Calendar, LocaleConfig } from 'react-native-calendars';
 import { TouchableOpacity } from 'react-native';
@@ -30,11 +30,7 @@ const ReservationScreen = () => {
   const [showCreateButton, setShowCreateButton] = useState(false);
 
   
-  // const facilities = [
-  //   { id: '1', name: 'Fbol Sahası A', type: 'Futbol' },
-  //   { id: '2', name: 'Basketbol Sahası B', type: 'Basketbol' },
-  //   // Diğer tesisleri ekleyebilirsiniz
-  // ];
+
   const getUserId = async () => {
     const userId = await AsyncStorage.getItem('userId');
     console.log("Fonk userId: ", userId);
@@ -45,14 +41,14 @@ const ReservationScreen = () => {
   useFocusEffect(
     React.useCallback(() => {
       fetchData();
-    }, []) // Empty dependency array means it only runs when the component mounts and unmounts
+    }, [])
 );
 const fetchData = async () => {
-    // Fetch facilities from the backend API when the component mounts
+   
     const fetchFacilities = async () => {
       try {
         const response = await axios.post('http://13.50.243.223:8080/facilities/listFacility');
-        setFacilities(response.data.data); // Assuming the response contains an arr of facilities
+        setFacilities(response.data.data); 
         
         console.log(response.data);
       } catch (error) {
@@ -64,9 +60,7 @@ const fetchData = async () => {
   }; 
   console.log("facilities: ", facilities);
   const handleCreateReservation = async () => {
-    // Check if all necessary data is available
-    
-    // const userId = getUserId();
+   
     const userId = await AsyncStorage.getItem('userId');
     console.log("userId: ", userId);
     const reservationData = {
@@ -77,23 +71,20 @@ const fetchData = async () => {
     };
     console.log("reservationdata: ",reservationData);
     
-    // TODO: List facilities
 
-    // Example backend API endpoint
     const backendApiEndpoint = 'http://13.50.243.223:8080/reservations/makeReservation';
 
-    // Send data to the backend using axios
     axios.post(backendApiEndpoint, reservationData)
       .then(response => {
         console.log('Reservation created successfully:', response.data);
-        // Additional logic if needed
+        
       })
       .catch(error => {
         console.error('Error creating reservation:', error);
-        // Handle errors if needed
+     
       });
 
-    // Reset state and UI
+
     setShowFacilities(true);
     setShowCreateButton(false);
     setSelectedFacility(null);
@@ -109,7 +100,7 @@ const fetchData = async () => {
     console.log("bu seçilmiş facilitidir: ",facility)
     setSelectedFacility(facility);
     setShowFacilities(false);
-    setShowCalendar(true); // Tesis kartına tıklandığında takvimi göster
+    setShowCalendar(true); 
    
   };
 
@@ -119,11 +110,11 @@ const fetchData = async () => {
     setShowCreateButton(true);
     setShowTimeSlots(false);
     setShowCalendar(false);
-    // Burada seçilen zaman aralığına göre işlemleri gerçekleştirebilirsiniz
+   
   };
 
   const handleCalendarClose = () => {
-    setShowCalendar(false); // Takvim kapatıldığında
+    setShowCalendar(false); 
     setShowFacilities(true);
     setShowCreateButton(false);
     setShowTimeSlots(false);
@@ -133,7 +124,7 @@ const fetchData = async () => {
   const handleDayPress = (day) => {
     console.log('Seçilen Gün: ', day.dateString);
     setSelectedDay(day.dateString);
-    setSelectedDate(day.dateString); // Bu satırı ekleyerek takvimde de seçilen günü işaretleyebiliriz
+    setSelectedDate(day.dateString); 
     setShowTimeSlots(true);
     setShowCalendar(false);
   };
@@ -193,7 +184,6 @@ const fetchData = async () => {
      
 
 const styles = StyleSheet.create({
-  // ... (diğer stiller)
 
   calendarContainer: {
     backgroundColor: '#fff',

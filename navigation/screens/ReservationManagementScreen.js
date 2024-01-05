@@ -23,19 +23,19 @@ const ReservationManagementScreen = () => {
             console.log(response.data.data);
         } catch (error) {
             console.error('Error getting reservations:', error);
-            // Handle the error appropriately
+            
         }
     };
 
     useEffect(() => {
-        // Initial fetch of reservations
+        
         fetchReservations();
     }, []);
     
     useFocusEffect(
         React.useCallback(() => {
             fetchReservations();
-        }, []) // Empty dependency array means it only runs when the component mounts and unmounts
+        }, []) 
     );
 
     const handleCancelReservation = async () => {
@@ -54,14 +54,14 @@ const ReservationManagementScreen = () => {
                 .then(response => {
                     console.log('Reservation canceled successfully:', response.data);
 
-                    // After canceling, fetch the updated reservations
+                    
                     fetchReservations();
 
                     setSelectedReservation(null);
                 })
                 .catch(error => {
                     console.error('Error canceling reservation:', error);
-                    // Handle the error appropriately
+                   
                 });
         }
     };
@@ -72,7 +72,6 @@ const ReservationManagementScreen = () => {
         };
         const backendApiEndpoint = 'http://13.50.243.223:8080/reservations/listReservation';
         console.log("requestData: ", requestData);
-        // Axios ile backen'denrezervasyonları getirme
         axios.post(backendApiEndpoint, requestData)
             .then(response => {
                 setReservations(response.data.data);
@@ -80,13 +79,11 @@ const ReservationManagementScreen = () => {
             })
             .catch(error => {
                 console.error('Error getting reservations:', error);
-                // Hata durumunda ugun şekilde işleyin
             });
     }
 
     
     useEffect( () => {
-        // Bacend AI enpoint
         fetchData();
         
     }, []); 

@@ -7,24 +7,9 @@ import { useFocusEffect } from '@react-navigation/native';
 const RankingsScreen = () => {
     const [users, setUsers] = useState([]);
 
-    // useEffect(() => {
-    //     // Örnek kullanıcılar ve rankları
-    //     const sampleUsers = [
-    //         { id: '1', name: 'User 1', rank: 5 },
-    //         { id: '2', name: 'User 2', rank: 3 },
-    //         { id: '3', name: 'User 3', rank: 8 },
-    //         // ... diğer kullanıcılar
-    //     ];
-
-    //     // Kullanıcıları ranklarına göre sırala
-    //     const sortedUsers = sampleUsers.sort((a, b) => b.rank - a.rank);
-
-    //     setUsers(sortedUsers);
-    // }, []);
-
     
     const fetchData = () => {
-        // Backend'ten kullanıcıları çekmek için endpoint
+       
         const fetchUsersEndpoint = 'http://13.50.243.223:8080/students/getRankings';
 
         axios.post(fetchUsersEndpoint)
@@ -42,7 +27,7 @@ const RankingsScreen = () => {
     useFocusEffect(
         React.useCallback(() => {
           fetchData();
-        }, []) // Empty dependency array means it only runs when the component mounts and unmounts
+        }, []) 
     );
     
 
@@ -75,48 +60,48 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         padding: 16,
-        backgroundColor: '#f5f5f5', // Arka plan rengi
+        backgroundColor: '#f5f5f5',
     },
     title: {
         fontSize: 45,
         marginBottom: 16,
-        color: '#333', // Başlık rengi
+        color: '#333',
         borderBottomWidth: 2,
-        borderBottomColor: 'black', // Change to the desired underline color
+        borderBottomColor: 'black', 
         alignSelf: 'center',
         marginTop: 5,
     },
     evenItem: {
-        borderWidth: 3, // Kalın kenar
-        borderColor: 'black', // Kenar rengi
+        borderWidth: 3, 
+        borderColor: 'black', 
         padding: 16,
         marginVertical: 8,
-        backgroundColor: '#f9f9f9', // Çift sıradaki öğelerin arka plan rengi
+        backgroundColor: '#f9f9f9', 
     },
     oddItem: {
-        borderWidth: 3, // Kalın kenar
-        borderColor: 'red', // Kenar rengi
+        borderWidth: 3, 
+        borderColor: 'red', 
         padding: 16,
         marginVertical: 8,
-        backgroundColor: '#fff', // Tek sıradaki öğelerin arka plan rengi
+        backgroundColor: '#fff', 
     },
     userInfoContainer: {
-        flexDirection: 'row', // Yatay düzen
-        justifyContent: 'space-between', // İki öğeyi genişlikleri doğrultusunda eşit aralıklarla yerleştirme
-        alignItems: 'center', // Dikeyde hizalama
+        flexDirection: 'row', 
+        justifyContent: 'space-between', 
+        alignItems: 'center', 
     },
     userName: {
         fontSize: 18,
         fontWeight: 'bold',
-        color: '#333', // Kullanıcı adı rengi
+        color: '#333', 
     },
     userRank: {
         fontSize: 16,
-        color: '#666', // Rank rengi
+        color: '#666', 
     },
     noUserText: {
         fontSize: 16,
-        color: '#666', // Bulunamayan kullanıcı metni rengi
+        color: '#666',
     },
 });
 

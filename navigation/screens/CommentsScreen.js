@@ -310,7 +310,7 @@ const styles = StyleSheet.create({
     },
     
     button: {
-        backgroundColor: '#007BFF', // You can change the background color as needed
+        backgroundColor: '#007BFF', 
         paddingVertical: 10,
         paddingHorizontal: 20,
         borderRadius: 5,
@@ -322,16 +322,16 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     title: {
-        fontSize: 32, // Adjust the font size as needed
+        fontSize: 32,
         fontWeight: 'bold',
-        color: 'black', // Blue color, you can change it as desired
+        color: 'black', 
         textAlign: 'center',
-        marginTop: 20, // Adjust the margin-top for vertical positioning
+        marginTop: 20,  
         borderBottomWidth: 2,
-        borderBottomColor: 'black', // Match the title color or choose a different one
-        width: '50%', // Adjust the width of the underline as needed
+        borderBottomColor: 'black',  
+        width: '50%', 
         alignSelf: 'center',
-        marginTop: 5, //
+        marginTop: 5,
     },
     
 });

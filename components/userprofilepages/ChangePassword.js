@@ -1,4 +1,4 @@
-// ChangePassword.js
+
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -9,15 +9,7 @@ const ChangePasswordScreen = () => {
   const [newPassword, setNewPassword] = useState('');
   const [confirmNewPassword, setConfirmNewPassword] = useState('');
 
-  // const handleChangePassword = () => {
-  //   // Örnek kontroller
-  //   if (currentPassword === 'gecerli_sifre' && newPassword === confirmNewPassword) {
-  //     // Şifre değiştirme işlemleri burada gerçekleştirilebilir.
-  //     Alert.alert('Başarılı', 'Şifre değiştirildi!');
-  //   } else {
-  //     Alert.alert('Hata', 'Geçersiz şifre veya yeni şifreler eşleşmiyor.');
-  //   }
-  // };
+
 
   
   const handleChangePassword = async () => {
@@ -38,7 +30,7 @@ const ChangePasswordScreen = () => {
         })
         .catch(error => {
             console.error('Şifre Değiştirilemedi:', error);
-            // Handle the error appropriately
+          
         });
   };
 
@@ -95,8 +87,8 @@ const styles = StyleSheet.create({
     height: 40,
     width: '100%',
     borderColor: 'gray',
-    borderWidth: 2, // Kenarları kalın yap
-    borderRadius: 10, // Köşeleri yuvarlak yap
+    borderWidth: 2, 
+    borderRadius: 10, 
     marginBottom: 16,
     paddingHorizontal: 8,
   },

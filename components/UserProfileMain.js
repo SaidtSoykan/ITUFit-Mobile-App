@@ -40,18 +40,18 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         padding: 16,
-        backgroundColor: 'white', // Kenarlarda siyah renkli arka plan
+        backgroundColor: 'white',
     },
     title: {
         fontSize: 24,
         marginBottom: 16,
-        color: 'white', // Beyaz renkli başlık metni
+        color: 'white', 
     },
     buttonContainer: {
-        width: '80%', // Butonların genişliği
+        width: '80%',
     },
     separator: {
-        height: 16, // Butonlar arasındaki boşluk
+        height: 16,
     },
 });
 

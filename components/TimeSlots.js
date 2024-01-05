@@ -3,7 +3,7 @@ import React from 'react';
 import { View, Text, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
 
 const TimeSlots = ({ selectedDate, onClose, onTimeSlotPress }) => {
-    // Örnek zaman aralıkları
+
     const timeSlots = [
         { id: '1', startTime: '08:00', endTime: '9:00' },
         { id: '2', startTime: '9:00', endTime: '10:00' },
@@ -16,7 +16,7 @@ const TimeSlots = ({ selectedDate, onClose, onTimeSlotPress }) => {
         { id: '9', startTime: '16:00', endTime: '17:00' },
         { id: '10', startTime:'17:00', endTime: '18:00' },
         { id: '11', startTime:'18:00', endTime: '19:00' },
-        // Diğer zaman aralıklarını ekleyebilirsiniz
+       
     ];
 
     return (

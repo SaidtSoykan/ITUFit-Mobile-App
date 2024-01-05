@@ -23,18 +23,14 @@ export function LoginScreen() {
           password: password,
         };
 
-        // Backend'e kayıt isteği gönderilir
         const response = await axios.post('http://13.50.243.223:8080/students/register', requestData);
 
         if (response.data.success) {
 
-          // Kayıt başarılı mesajı
           Alert.alert('Success', 'Registration successful. You can now login with your credentials.');
 
-          // Login ekranına geri dön
           setIsLoginScreen(true);
         } else {
-          // Backend kayıt başarısız
           Alert.alert('Error', response.data.message || 'Registration failed. Please check your credentials.');
         }
       } catch (error) {
@@ -88,22 +84,15 @@ export function LoginScreen() {
           password: password,
         };
 
-        // Backend'e giriş isteği gönderilir
         const response = await axios.post('http://13.50.243.223:8080/students/login', requestData);
 
         if (response.data.success) {
-          // Giriş başarılıysa, kullanıcı bilgilerini saklayabilirsiniz (isteğe bağlı)
           const { jwtToken, userId } = response.data.data;
           await AsyncStorage.setItem('userId', userId.toString());
 
-          // Kullanıcı girşi başarılı mesajı
-          
-
-          // props.authorize fonksiyonunu düzenleyerek kullanıcı bilgilerini saklayabilirsiniz
           signIn();
-          // Alert.alert('Success', 'Login successful. Welcome back, user ID: ' + userId);
+          
         } else {
-          // Backend authentication failed
           Alert.alert('Error', response.data.message || 'Login failed. Please check your credentials.');
         }
       } catch (error) {

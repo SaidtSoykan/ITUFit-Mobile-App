@@ -26,16 +26,6 @@ const PersonalInfoScreen = () => {
     setPreferredSports(updatedSports);
   };
 
-  // const handleSave = () => {
-  //   calculateBasalMetabolism(); // Calculate Basal Metabolism when Save is pressed
-  //   setSavedInfo({
-  //     weight: weight,
-  //     height: height,
-  //     basalMetabolism: basalMetabolism,
-  //     desiredWeight: desiredWeight,
-  //     preferredSports: preferredSports,
-  //   });
-  // };
 
 
   const handleSave = async () => {
@@ -62,7 +52,7 @@ const PersonalInfoScreen = () => {
                 })
                 .catch(error => {
                   console.error('Error while saving user information:', error);
-                    // Handle the error appropriately
+    
                 });
   };
 
@@ -73,19 +63,12 @@ const PersonalInfoScreen = () => {
   useFocusEffect(
     React.useCallback(() => {
       fetchData();
-    }, []) // Empty dependency array means it only runs when the component mounts and unmounts
+    }, []) 
 );
 
 const fetchData = () => {
   getInfo();
-  // console.log("userInfo: ", userInfo);
-  // setSavedInfo({
-  //   weight: userInfo.weight,
-  //   height: userInfo.height,
-  //   basalMetabolism: userInfo.basalMetabolism,
-  //   desiredWeight: userInfo.goalWeight,
-  //   preferredSports: preferredSports,
-  // });
+
 }
 
   const getInfo = async () => {
