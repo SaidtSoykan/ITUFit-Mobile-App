@@ -22,7 +22,7 @@ const ChangePasswordScreen = () => {
   
   const handleChangePassword = async () => {
     
-    const backendApiEndpoint = 'https://c4f3-176-42-133-250.ngrok-free.app/students/changepassword';
+    const backendApiEndpoint = 'http://13.50.243.223:8080/students/changepassword';
     const userId = await AsyncStorage.getItem('userId');
     const requestData = {
       userId: userId,
